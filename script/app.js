@@ -8,16 +8,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
     messagingUrl: "https://messaging.botpress.cloud",
     clientId: "72cce4b8-1ae0-4610-bddf-ee43acbc33a5",
     webhookId: "f74a49e5-bb26-459b-8197-6d0a74b03eb6",
+    containerWidth: "100%25",
+    layoutWidth: "100%25",
     lazySocket: true,
     themeName: "prism",
-    frontendVersion: "v1",
+    hideWidget: true,
     useSessionStorage: true,
+    disableAnimations: true,
+    showCloseButton: false,
+    closeOnEscape: false,
     enableConversationDeletion: true,
     showPoweredBy: true,
     theme: "prism",
     themeColor: "#2563eb",
     allowedOrigins: [],
   });
+
   console.log("skele");
 
   window.botpressWebChat.onEvent(
@@ -26,10 +32,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         console.log(event.value.botResponse);
         streamAudio(event.value.botResponse);
       } else {
-        console.log("Something wrong :(");
+        window.botpressWebChat.sendEvent({ type: "show" });
       }
     },
-    ["TRIGGER"]
+    ["TRIGGER", "LIFECYCLE.LOADED"]
   );
 });
 
@@ -71,6 +77,30 @@ function playAudio(arrayBuffer) {
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
     source.connect(audioContext.destination);
+    console.log(`Audio duration: ${source.buffer.duration} seconds`);
     source.start(0);
+
+    startAnimation();
+
+    source.onended = () => {
+      stopAnimation();
+    };
   });
 }
+
+function startAnimation() {
+  const bars = document.querySelectorAll(".bar");
+  bars.forEach((each) => {
+    each.style.animationDuration = `${Math.random() * (0.75 - 0.25) + 0.25}s`;
+    each.style.animationPlayState = "running";
+  });
+}
+
+function stopAnimation() {
+  const bars = document.querySelectorAll(".bar");
+  bars.forEach((each) => {
+    each.style.animationPlayState = "paused";
+  });
+}
+
+window.addEventListener("load", () => {});
