@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     theme: "prism",
     themeColor: "#2563eb",
     allowedOrigins: [],
+    stylesheet: "https://i432778.hera.fhict.nl/botpress.css",
   });
 
   console.log("skele");
@@ -56,7 +57,7 @@ function streamAudio(text) {
   };
 
   fetch(
-    "https://api.elevenlabs.io/v1/text-to-speech/2gPFXx8pN3Avh27Dw5Ma/stream?optimize_streaming_latency=0&output_format=mp3_44100_128",
+    "https://api.elevenlabs.io/v1/text-to-speech/prkETcVHAEVKlK6PbGaE/stream?optimize_streaming_latency=0&output_format=mp3_44100_128",
     options
   )
     .then((response) => {
